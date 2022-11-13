@@ -1,13 +1,11 @@
 package com.lando.flappy;
 
-import java.nio.ByteBuffer;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-import java.nio.ByteBuffer;
+import com.lando.flappy.input.Input;
 import org.lwjgl.glfw.GLFWVidMode;
-//import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -48,8 +46,17 @@ public class Main implements Runnable {
 
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         glfwSetWindowPos(window, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2);
+
+        glfwSetKeyCallback(window, new Input());
+
         glfwMakeContextCurrent(window);
         glfwShowWindow(window);
+        GL.createCapabilities();
+
+        glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+        glEnable(GL_DEPTH_TEST);
+        System.out.println("OpenGL: " + glGetString(GL_VERSION));
+
     }
 
     private void update() {
@@ -57,6 +64,7 @@ public class Main implements Runnable {
     }
 
     private void render() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glfwSwapBuffers(window);
     }
 
