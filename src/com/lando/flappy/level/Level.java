@@ -2,9 +2,11 @@ package com.lando.flappy.level;
 
 import com.lando.flappy.graphics.Shader;
 import com.lando.flappy.graphics.VertexArray;
+import com.lando.flappy.graphics.Texture;
 
 public class Level {
     private VertexArray background;
+    private Texture bgTexture;
 
     public Level() {
         float[] vertices = new float[]{
@@ -28,11 +30,14 @@ public class Level {
         };
 
         background = new VertexArray(vertices, indices, tcs);
+        bgTexture = new Texture("res/bg.jpeg");
     }
 
     public void render() {
+        bgTexture.bind();
         Shader.BACKGROUND.enable();
         background.render();
         Shader.BACKGROUND.disable();
+        bgTexture.unbind();
     }
 }

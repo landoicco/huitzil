@@ -1,6 +1,7 @@
 package com.lando.flappy;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import com.lando.flappy.graphics.Shader;
@@ -59,10 +60,11 @@ public class Main implements Runnable {
 
         glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
         glEnable(GL_DEPTH_TEST);
+        glActiveTexture(GL_TEXTURE1);
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
         Shader.loadAll();
 
-        Shader.BACKGROUND.enable();
+//        Shader.BACKGROUND.enable();
         Matrix4f pr_matrix = Matrix4f.orthographic(
                 -10.0f,
                 10.0f,
@@ -70,7 +72,8 @@ public class Main implements Runnable {
                 10.0f * 9.0f / 16.0f,
                 -1.0f, 1.0f);
         Shader.BACKGROUND.setUniformMatrix4f("pr_matrix", pr_matrix);
-        Shader.BACKGROUND.disable();
+        Shader.BACKGROUND.setUniform1i("tex", 1);
+//        Shader.BACKGROUND.disable();
 
         level = new Level();
 
