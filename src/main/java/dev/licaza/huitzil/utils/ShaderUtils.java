@@ -1,4 +1,4 @@
-package com.lando.flappy.utils;
+package dev.licaza.huitzil.utils;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;

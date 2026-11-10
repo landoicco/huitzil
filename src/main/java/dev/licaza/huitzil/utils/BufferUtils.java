@@ -1,4 +1,4 @@
-package com.lando.flappy.utils;
+package dev.licaza.huitzil.utils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -22,7 +22,7 @@ public class BufferUtils {
     }
 
     public static IntBuffer createIntBuffer(int[] array) {
-        IntBuffer result = ByteBuffer.allocateDirect(array.length).order(ByteOrder.nativeOrder()).asIntBuffer();
+        IntBuffer result = ByteBuffer.allocateDirect(array.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
         result.put(array).flip();
         return result;
     }

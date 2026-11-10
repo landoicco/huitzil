@@ -1,11 +1,13 @@
-package com.lando.flappy.graphics;
+package dev.licaza.huitzil.graphics;
 
-import com.lando.flappy.utils.BufferUtils;
+import dev.licaza.huitzil.utils.BufferUtils;
+import dev.licaza.huitzil.utils.FileUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -19,15 +21,15 @@ public class Texture {
     }
 
     private int load(String path) {
-        int[] pixels = null;
-        try {
-            BufferedImage image = ImageIO.read(new FileInputStream(path));
+        int[] pixels;
+        try (InputStream stream = FileUtils.openResource(path)) {
+            BufferedImage image = ImageIO.read(stream);
             width = image.getWidth();
             height = image.getHeight();
             pixels = new int[width * height];
             image.getRGB(0, 0, width, height, pixels, 0, width);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UncheckedIOException("Could not load texture " + path, e);
         }
 
         int[] data = new int[width * height];

@@ -1,7 +1,6 @@
-package com.lando.flappy.graphics;
+package dev.licaza.huitzil.graphics;
 
-import com.lando.flappy.graphics.Shader;
-import com.lando.flappy.utils.BufferUtils;
+import dev.licaza.huitzil.utils.BufferUtils;
 
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -15,7 +14,7 @@ public class VertexArray {
     public VertexArray(float[] vertices, byte[] indices, float[] textureCoordinates) {
         count = indices.length;
 
-        vao = glGenBuffers();
+        vao = glGenVertexArrays();
         glBindVertexArray(vao);
 
         vbo = glGenBuffers();
