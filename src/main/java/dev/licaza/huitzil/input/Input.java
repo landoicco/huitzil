@@ -1,4 +1,4 @@
-package com.lando.flappy.input;
+package dev.licaza.huitzil.input;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;

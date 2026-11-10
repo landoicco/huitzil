@@ -1,7 +1,7 @@
-package com.lando.flappy.graphics;
+package dev.licaza.huitzil.graphics;
 
-import com.lando.flappy.utils.BufferUtils;
-import com.lando.flappy.utils.FileUtils;
+import dev.licaza.huitzil.utils.BufferUtils;
+import dev.licaza.huitzil.utils.FileUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

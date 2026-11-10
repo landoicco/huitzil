@@ -1,6 +1,6 @@
-package com.lando.flappy;
+package dev.licaza.huitzil;
 
-import com.lando.flappy.input.Input;
+import dev.licaza.huitzil.input.Input;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
@@ -37,7 +37,7 @@ public class Main {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
-        window = glfwCreateWindow(width, height, "Flappy", NULL, NULL);
+        window = glfwCreateWindow(width, height, "Huitzil", NULL, NULL);
         if (window == NULL) throw new IllegalStateException("Could not create the GLFW window");
 
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());

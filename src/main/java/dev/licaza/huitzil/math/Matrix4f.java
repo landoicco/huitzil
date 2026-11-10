@@ -1,6 +1,6 @@
-package com.lando.flappy.math;
+package dev.licaza.huitzil.math;
 
-import com.lando.flappy.utils.BufferUtils;
+import dev.licaza.huitzil.utils.BufferUtils;
 
 import java.nio.FloatBuffer;
 

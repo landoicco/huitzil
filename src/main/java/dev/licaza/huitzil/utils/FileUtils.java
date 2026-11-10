@@ -1,4 +1,4 @@
-package com.lando.flappy.utils;
+package dev.licaza.huitzil.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

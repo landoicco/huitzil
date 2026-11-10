@@ -1,7 +1,7 @@
-package com.lando.flappy.graphics;
+package dev.licaza.huitzil.graphics;
 
-import com.lando.flappy.math.*;
-import com.lando.flappy.utils.ShaderUtils;
+import dev.licaza.huitzil.math.*;
+import dev.licaza.huitzil.utils.ShaderUtils;
 
 import java.util.HashMap;
 import java.util.Map;

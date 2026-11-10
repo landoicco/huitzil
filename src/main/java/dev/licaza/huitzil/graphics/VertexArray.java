@@ -1,6 +1,6 @@
-package com.lando.flappy.graphics;
+package dev.licaza.huitzil.graphics;
 
-import com.lando.flappy.utils.BufferUtils;
+import dev.licaza.huitzil.utils.BufferUtils;
 
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL15.*;

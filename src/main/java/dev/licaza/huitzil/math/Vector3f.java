@@ -1,4 +1,4 @@
-package com.lando.flappy.math;
+package dev.licaza.huitzil.math;
 
 public class Vector3f {
 
