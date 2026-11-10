@@ -46,11 +46,13 @@ jobs:
       # A trimmed Java runtime goes inside the app, so players don't need Java installed
       - name: Package app
         run: |
-          options=()
-          if [ "${{ matrix.platform }}" = macos ]; then
+          case "${{ matrix.platform }}" in
+            linux) options=(--icon packaging/huitzil.png) ;;
+            windows) options=(--icon packaging/huitzil.ico) ;;
             # GLFW must run on the main thread on macOS
-            options=(--java-options -XstartOnFirstThread --mac-package-identifier dev.licaza.huitzil)
-          fi
+            macos) options=(--icon packaging/huitzil.icns --java-options -XstartOnFirstThread
+                            --mac-package-identifier dev.licaza.huitzil) ;;
+          esac
           jpackage --type app-image \
             --name Huitzil \
             --app-version "$VERSION" \

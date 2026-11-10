@@ -145,6 +145,7 @@ filtering, so every pixel stays sharp. All sprites are original.
 | `column.png` | 24 × 128 | Carved stone with jade bands of stepped greca; capital at the top. Flipped vertically for the top column |
 | `background.png` | 320 × 180 | Sunset sky, sun, temple and cactus silhouettes; tiles horizontally |
 | `font.png` | 228 × 8 | 5 × 7 pixel glyphs (`0–9`, `A–Z`, `.`, `:`) in 6 × 8 cells, with a 1 px shadow |
+| `icon.png` | 32 × 32 | Game icon: the hummingbird over a crop of the sunset, with stepped rounded corners. Scaled up for the app packages in `packaging/` |
 | `overlay.png` | 1 × 1 | Translucent dark pixel, stretched over the screen behind the splash text |
 
 ### Parallax
