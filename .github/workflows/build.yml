@@ -81,10 +81,11 @@ jobs:
           jpackage --type dmg --app-image app/Huitzil.app --name Huitzil --app-version "$VERSION" --dest .
           mv Huitzil-*.dmg Huitzil-macos.dmg
 
+      # Uploaded as is, so the download isn't a zip inside a zip
       - uses: actions/upload-artifact@v7
         with:
-          name: huitzil-${{ matrix.platform }}
           path: Huitzil-${{ matrix.platform }}.*
+          archive: false
           if-no-files-found: error
 
   release:
@@ -99,7 +100,7 @@ jobs:
 
       - uses: actions/download-artifact@v8
         with:
-          pattern: huitzil-*
+          pattern: Huitzil-*
           path: dist
           merge-multiple: true
 
