@@ -1,5 +1,5 @@
 {
-  description = "Flappy - a small arcade game built with Java and LWJGL";
+  description = "Huitzil - a hummingbird arcade game built with Java and LWJGL";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -34,13 +34,13 @@
 
           echo ""
           echo "$rule"
-          echo "  🐦 ''${bold}FLAPPY''${reset}  ''${dim}·  development shell''${reset}"
+          echo "  🐦 ''${bold}HUITZIL''${reset}  ''${dim}·  development shell''${reset}"
           echo "$rule"
           echo "  ☕ JDK     ${jdk.version}"
           echo "  📦 Maven   ${pkgs.maven.version}"
           echo "  🐙 gh      ${pkgs.gh.version}"
           echo ""
-          echo "  ▶️  ''${bold}mvn package && java -jar target/flappy.jar''${reset}"
+          echo "  ▶️  ''${bold}mvn package && java -jar target/huitzil.jar''${reset}"
           echo "$rule"
           echo ""
         '';

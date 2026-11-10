@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.lando</groupId>
-    <artifactId>flappy</artifactId>
+    <groupId>dev.licaza</groupId>
+    <artifactId>huitzil</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Flappy</name>
+    <name>Huitzil</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,9 +56,9 @@
     </dependencies>
 
     <build>
-        <finalName>flappy</finalName>
+        <finalName>huitzil</finalName>
         <plugins>
-            <!-- Bundles LWJGL into a single runnable jar: target/flappy.jar -->
+            <!-- Bundles LWJGL into a single runnable jar: target/huitzil.jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -73,7 +73,7 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.lando.flappy.Main</mainClass>
+                                    <mainClass>dev.licaza.huitzil.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
