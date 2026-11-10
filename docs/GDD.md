@@ -103,8 +103,8 @@ All values live as constants in the code so they are easy to adjust.
 | Gravity | 30 units/s² |
 | Flap speed | 9 units/s |
 | Max fall speed | 15 units/s |
-| Hummingbird sprite | 1 × 1 units |
-| Hummingbird hitbox | 0.7 × 0.6 units |
+| Hummingbird sprite | 1.25 × 1.25 units |
+| Hummingbird hitbox | 0.75 × 0.55 units |
 | Column width | 1.5 units |
 | Column length | 8 units |
 | Gap height | 3.5 units |
@@ -140,10 +140,11 @@ filtering, so every pixel stays sharp. All sprites are original.
 
 | Asset | Size (px) | Notes |
 |---|---|---|
-| `hummingbird.png` | 32 × 16 | Two 16 × 16 frames, wings up and down; alternates every 0.05 s |
-| `column.png` | 24 × 128 | Carved stone with greca bands; capital at the top. Flipped vertically for the top column |
+| `hummingbird.png` | 40 × 20 | Two 20 × 20 frames, wings up and down; alternates every 0.05 s |
+| `column.png` | 24 × 128 | Carved stone with jade bands of stepped greca; capital at the top. Flipped vertically for the top column |
 | `background.png` | 320 × 180 | Sunset sky, sun, temple and cactus silhouettes; tiles horizontally |
-| `font.png` | 216 × 8 | 5 × 7 pixel glyphs (`0–9`, `A–Z`) in 6 × 8 cells |
+| `font.png` | 228 × 8 | 5 × 7 pixel glyphs (`0–9`, `A–Z`, `.`, `:`) in 6 × 8 cells, with a 1 px shadow |
+| `overlay.png` | 1 × 1 | Translucent dark pixel, stretched over the screen behind the splash text |
 
 ### Parallax
 
@@ -152,11 +153,17 @@ a single layer.
 
 ## 8. User interface
 
-All text uses the pixel font, centered horizontally.
+All text uses the pixel font at whole-pixel scales, centered horizontally.
 
-- **Ready:** `HUITZIL` (large) and `PRESS SPACE`.
-- **Playing:** the current score at the top center.
-- **Game over:** `GAME OVER`, `SCORE n`, `BEST n` and `PRESS SPACE`.
+The **Ready** and **Game over** states are splash screens: the world keeps
+being drawn underneath, dimmed by a translucent overlay, and both end with the
+author's portfolio, `LICAZA.DEV`.
+
+| Screen | Content (scale) |
+|---|---|
+| Ready | `HUITZIL` (×4), `PRESS SPACE` (×2), `LICAZA.DEV` (×1) |
+| Playing | Current score at the top center (×2), no overlay |
+| Game over | `GAME OVER` (×3), `SCORE n` and `BEST n` (×2), `PRESS SPACE` (×1), `LICAZA.DEV` (×1) |
 
 ## 9. Audio
 

@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 public class Texture {
 
@@ -17,10 +18,15 @@ public class Texture {
     private int texture;
 
     public Texture(String path) {
-        this.texture = load(path);
+        this(path, false);
     }
 
-    private int load(String path) {
+    // A repeating texture wraps around, so it can scroll by moving its texture coordinates
+    public Texture(String path, boolean repeat) {
+        this.texture = load(path, repeat ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    }
+
+    private int load(String path, int wrap) {
         int[] pixels;
         try (InputStream stream = FileUtils.openResource(path)) {
             BufferedImage image = ImageIO.read(stream);
@@ -45,6 +51,8 @@ public class Texture {
         glBindTexture(GL_TEXTURE_2D, result);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, BufferUtils.createIntBuffer(data));
         unbind();
         return result;

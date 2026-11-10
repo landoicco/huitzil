@@ -41,6 +41,14 @@ public class Matrix4f {
         return result;
     }
 
+    public static Matrix4f scale(float x, float y) {
+        Matrix4f result = identity();
+        result.elements[0 + (0 * 4)] = x;
+        result.elements[1 + (1 * 4)] = y;
+
+        return result;
+    }
+
     public static Matrix4f rotate(float angle) {
         Matrix4f result = identity();
         float r = (float) Math.toRadians(angle);
