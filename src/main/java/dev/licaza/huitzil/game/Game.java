@@ -4,6 +4,7 @@ import dev.licaza.huitzil.graphics.Renderer;
 import dev.licaza.huitzil.graphics.Text;
 import dev.licaza.huitzil.graphics.Texture;
 import dev.licaza.huitzil.input.Input;
+import dev.licaza.huitzil.utils.Browser;
 
 import java.util.Random;
 import java.util.prefs.Preferences;
@@ -23,6 +24,14 @@ public class Game {
     private static final float FIRST_PAIR_X = WIDTH / 2 + 3.0f;
     private static final float GAME_OVER_DELAY = 0.5f;
 
+    private static final String LINK_TEXT = "LICAZA.DEV";
+    private static final String LINK_URL = "https://licaza.dev";
+    private static final float LINK_Y = -4.75f;
+    private static final int LINK_SCALE = 1;
+    private static final float LINK_PADDING = 0.25f;
+    // Turns the cream text (#fff3d6) into sun yellow (#ffc767)
+    private static final float[] LINK_HOVER_TINT = {1.0f, 0.82f, 0.48f};
+
     private enum State { READY, PLAYING, GAME_OVER }
 
     private final Renderer renderer;
@@ -38,6 +47,7 @@ public class Game {
 
     private State state;
     private float backgroundOffset, gameOverTime;
+    private float mouseX, mouseY;
     private int score;
     private int best = preferences.getInt("best", 0);
 
@@ -119,6 +129,24 @@ public class Game {
         }
     }
 
+    /** Updates the mouse position, in world units. */
+    public void mouseMoved(float x, float y) {
+        mouseX = x;
+        mouseY = y;
+    }
+
+    /** True when the mouse is over the portfolio link of a splash screen. */
+    public boolean isLinkHovered() {
+        if (state == State.PLAYING) return false;
+        float halfWidth = Text.width(LINK_TEXT, LINK_SCALE) / 2 + LINK_PADDING;
+        float halfHeight = Text.height(LINK_SCALE) / 2 + LINK_PADDING;
+        return Math.abs(mouseX) < halfWidth && Math.abs(mouseY - LINK_Y) < halfHeight;
+    }
+
+    public void click() {
+        if (isLinkHovered()) Browser.open(LINK_URL);
+    }
+
     public void render() {
         renderer.draw(background, 0, 0, WIDTH, HEIGHT, 0, backgroundOffset, 0, 1, 1);
         for (ColumnPair pair : pairs) pair.render(renderer, column);
@@ -135,7 +163,7 @@ public class Game {
         renderer.draw(overlay, 0, 0, WIDTH, HEIGHT);
         text.drawCentered("HUITZIL", 0, 2.0f, 4);
         text.drawCentered("PRESS SPACE", 0, -0.75f, 2);
-        text.drawCentered("LICAZA.DEV", 0, -4.75f, 1);
+        drawLink();
     }
 
     private void drawGameOverScreen() {
@@ -145,6 +173,13 @@ public class Game {
         text.drawCentered("BEST " + best, 0, -0.75f, 2);
         // Only invite a restart once input is accepted again
         if (gameOverTime >= GAME_OVER_DELAY) text.drawCentered("PRESS SPACE", 0, -2.75f, 1);
-        text.drawCentered("LICAZA.DEV", 0, -4.75f, 1);
+        drawLink();
+    }
+
+    // The link turns sun yellow on hover, so it reads as clickable
+    private void drawLink() {
+        if (isLinkHovered()) renderer.setTint(LINK_HOVER_TINT[0], LINK_HOVER_TINT[1], LINK_HOVER_TINT[2]);
+        text.drawCentered(LINK_TEXT, 0, LINK_Y, LINK_SCALE);
+        renderer.resetTint();
     }
 }

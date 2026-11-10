@@ -23,6 +23,8 @@ public class Main {
     private long window;
 
     private Game game;
+    private long handCursor;
+    private boolean overLink;
 
     public void run() {
         init();
@@ -41,6 +43,7 @@ public class Main {
                 game.update((float) STEP);
                 lag -= STEP;
             }
+            updateCursor();
 
             glClear(GL_COLOR_BUFFER_BIT);
             game.render();
@@ -72,6 +75,13 @@ public class Main {
         }
 
         glfwSetKeyCallback(window, new Input());
+        // Window pixels (origin at the top left) to world units (origin at the center)
+        glfwSetCursorPosCallback(window, (w, x, y) ->
+                game.mouseMoved((float) (x / width - 0.5) * Game.WIDTH, (float) (0.5 - y / height) * Game.HEIGHT));
+        glfwSetMouseButtonCallback(window, (w, button, action, mods) -> {
+            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) game.click();
+        });
+        handCursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
@@ -82,6 +92,15 @@ public class Main {
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
 
         game = new Game(new Renderer(Game.WIDTH, Game.HEIGHT));
+    }
+
+    // Hand cursor over the portfolio link, default cursor everywhere else
+    private void updateCursor() {
+        boolean over = game.isLinkHovered();
+        if (over != overLink) {
+            glfwSetCursor(window, over ? handCursor : NULL);
+            overLink = over;
+        }
     }
 
     public static void main(String[] args) {

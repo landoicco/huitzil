@@ -41,9 +41,19 @@ public class Renderer {
         shader.setUniformMatrix4f("pr_matrix",
                 Matrix4f.orthographic(-halfWidth, halfWidth, -halfHeight, halfHeight, -1, 1));
         shader.setUniform1i("tex", 0);
+        resetTint();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    /** Multiplies the color of everything drawn next, until resetTint() is called. */
+    public void setTint(float r, float g, float b) {
+        shader.setUniform3f("tint", new Vector3f(r, g, b));
+    }
+
+    public void resetTint() {
+        setTint(1, 1, 1);
     }
 
     public void draw(Texture texture, float x, float y, float width, float height) {

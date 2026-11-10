@@ -38,6 +38,7 @@ the greca patterns on the stone) and in this document.
 |---|---|
 | `Space` | Flap / start / restart |
 | `Esc` | Quit |
+| Click `LICAZA.DEV` | Open the author's portfolio (splash screens only) |
 
 ## 5. Game states
 
@@ -156,8 +157,10 @@ a single layer.
 All text uses the pixel font at whole-pixel scales, centered horizontally.
 
 The **Ready** and **Game over** states are splash screens: the world keeps
-being drawn underneath, dimmed by a translucent overlay, and both end with the
-author's portfolio, `LICAZA.DEV`.
+being drawn underneath, dimmed by a translucent overlay, and both end with a
+link to the author's portfolio, `LICAZA.DEV`: on hover it turns sun yellow
+(`#ffc767`) and the cursor turns into a hand, and clicking it opens
+https://licaza.dev in the default browser.
 
 | Screen | Content (scale) |
 |---|---|

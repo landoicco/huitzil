@@ -17,10 +17,20 @@ public class Text {
         this.renderer = renderer;
     }
 
+    /** Width of the text in world units. */
+    public static float width(String text, int scale) {
+        return text.length() * CELL_WIDTH * scale / PIXELS_PER_UNIT;
+    }
+
+    /** Height of a line of text in world units. */
+    public static float height(int scale) {
+        return CELL_HEIGHT * scale / PIXELS_PER_UNIT;
+    }
+
     /** Draws text centered horizontally on x, with y as its vertical center. Scale 1 is the font's pixel size. */
     public void drawCentered(String text, float x, float y, int scale) {
-        float charWidth = CELL_WIDTH * scale / PIXELS_PER_UNIT;
-        float charHeight = CELL_HEIGHT * scale / PIXELS_PER_UNIT;
+        float charWidth = width("X", scale);
+        float charHeight = height(scale);
         float glyphWidth = 1.0f / GLYPHS.length();
 
         float charX = x - text.length() * charWidth / 2 + charWidth / 2;

@@ -11,9 +11,9 @@ game engine.
 
 ## 🚧 Status
 
-Work in progress. The base is in place: the window, the OpenGL 3.3 setup, the
-build and the [game design document](docs/GDD.md). The art and the gameplay
-come next.
+Playable! 🎉 The full game loop from the [game design document](docs/GDD.md)
+is in: art, physics, columns, scoring, best score and splash screens. Next up:
+automated builds for Windows, Linux and macOS.
 
 ## ✨ Features (v1.0)
 
@@ -29,6 +29,7 @@ come next.
 |---|---|
 | `Space` | Flap / start / restart |
 | `Esc` | Quit |
+| 🖱️ Click `LICAZA.DEV` | Open my portfolio (title and game over screens) |
 
 ## 🛠️ Tech stack
 
@@ -65,10 +66,11 @@ java -jar target/huitzil.jar
 ```
 src/main/java/dev/licaza/huitzil
 ├── Main.java     window and game loop
-├── graphics/     shaders, textures, vertex arrays
+├── game/         game states, hummingbird, columns, scoring
+├── graphics/     sprite renderer, shaders, textures, text
 ├── input/        keyboard state
 ├── math/         vectors and matrices
-└── utils/        file and buffer helpers
+└── utils/        file, buffer and browser helpers
 docs/
 └── GDD.md        game design document
 ```
