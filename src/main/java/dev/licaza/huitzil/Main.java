@@ -1,10 +1,13 @@
 package dev.licaza.huitzil;
 
 import dev.licaza.huitzil.game.Game;
+import dev.licaza.huitzil.graphics.Image;
 import dev.licaza.huitzil.graphics.Renderer;
 import dev.licaza.huitzil.input.Input;
+import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryUtil;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -69,6 +72,8 @@ public class Main {
         window = glfwCreateWindow(width, height, "Huitzil", NULL, NULL);
         if (window == NULL) throw new IllegalStateException("Could not create the GLFW window");
 
+        setIcon();
+
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         if (vidmode != null) {
             glfwSetWindowPos(window, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2);
@@ -92,6 +97,16 @@ public class Main {
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
 
         game = new Game(new Renderer(Game.WIDTH, Game.HEIGHT));
+    }
+
+    // Title bar and taskbar icon; macOS takes it from the app bundle instead
+    private void setIcon() {
+        if (glfwGetPlatform() == GLFW_PLATFORM_COCOA) return;
+        Image icon = Image.load("textures/icon.png");
+        try (GLFWImage.Buffer images = GLFWImage.malloc(1)) {
+            images.get(0).set(icon.width(), icon.height(), MemoryUtil.memByteBuffer(icon.pixels()));
+            glfwSetWindowIcon(window, images);
+        }
     }
 
     // Hand cursor over the portfolio link, default cursor everywhere else
