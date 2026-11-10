@@ -214,4 +214,3 @@ a single shader for the hummingbird, the columns, the background and the text.
 - Sound effects (wings, score, hit).
 - Flowers in some gaps that give bonus points.
 - Day-to-night cycle as the score grows.
-- Windows and macOS builds.
