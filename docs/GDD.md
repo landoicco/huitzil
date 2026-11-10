@@ -38,6 +38,7 @@ the greca patterns on the stone) and in this document.
 |---|---|
 | `Space` | Flap / start / restart |
 | `Esc` | Quit |
+| Click `LICAZA.DEV` | Open the author's portfolio (splash screens only) |
 
 ## 5. Game states
 
@@ -153,17 +154,24 @@ a single layer.
 
 ## 8. User interface
 
-All text uses the pixel font at whole-pixel scales, centered horizontally.
+All text uses the pixel font, centered horizontally, at scales in multiples of
+0.25 so every font pixel covers whole screen pixels and stays sharp.
 
 The **Ready** and **Game over** states are splash screens: the world keeps
-being drawn underneath, dimmed by a translucent overlay, and both end with the
-author's portfolio, `LICAZA.DEV`.
+being drawn underneath, dimmed by a translucent overlay, and both end with a
+link to the author's portfolio, `LICAZA.DEV`: on hover it turns sun yellow
+(`#ffc767`) and the cursor turns into a hand, and clicking it opens
+https://licaza.dev in the default browser.
 
 | Screen | Content (scale) |
 |---|---|
 | Ready | `HUITZIL` (×4), `PRESS SPACE` (×2), `LICAZA.DEV` (×1) |
 | Playing | Current score at the top center (×2), no overlay |
 | Game over | `GAME OVER` (×3), `SCORE n` and `BEST n` (×2), `PRESS SPACE` (×1), `LICAZA.DEV` (×1) |
+
+Both splash screens also show the game version (`V1.0.0`, ×0.75) in the bottom
+right corner. It comes from the Maven project version through the jar
+manifest, so it is only set in `pom.xml`; outside the jar it reads `DEV`.
 
 ## 9. Audio
 
