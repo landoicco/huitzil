@@ -1,6 +1,7 @@
 package dev.licaza.huitzil;
 
 import dev.licaza.huitzil.graphics.Renderer;
+import dev.licaza.huitzil.graphics.Text;
 import dev.licaza.huitzil.graphics.Texture;
 import dev.licaza.huitzil.input.Input;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -22,7 +23,8 @@ public class Main {
     private long window;
 
     private Renderer renderer;
-    private Texture background, column, hummingbird;
+    private Texture background, column, hummingbird, overlay;
+    private Text text;
 
     public void run() {
         init();
@@ -68,6 +70,8 @@ public class Main {
         background = new Texture("textures/background.png", true);
         column = new Texture("textures/column.png");
         hummingbird = new Texture("textures/hummingbird.png");
+        overlay = new Texture("textures/overlay.png");
+        text = new Text(renderer);
     }
 
     private void update() {
@@ -86,7 +90,27 @@ public class Main {
         int frame = (int) (glfwGetTime() / 0.05) % 2;
         renderer.draw(hummingbird, -5, 0.5f, 1.25f, 1.25f, 0, frame * 0.5f, 0, 0.5f, 1);
 
+        // Demo: hold Space to see the game over screen
+        if (Input.keys[GLFW_KEY_SPACE]) drawGameOverScreen(12, 30);
+        else drawTitleScreen();
+
         glfwSwapBuffers(window);
+    }
+
+    private void drawTitleScreen() {
+        renderer.draw(overlay, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        text.drawCentered("HUITZIL", 0, 2.0f, 4);
+        text.drawCentered("PRESS SPACE", 0, -0.75f, 2);
+        text.drawCentered("LICAZA.DEV", 0, -4.75f, 1);
+    }
+
+    private void drawGameOverScreen(int score, int best) {
+        renderer.draw(overlay, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        text.drawCentered("GAME OVER", 0, 2.5f, 3);
+        text.drawCentered("SCORE " + score, 0, 0.5f, 2);
+        text.drawCentered("BEST " + best, 0, -0.75f, 2);
+        text.drawCentered("PRESS SPACE", 0, -2.75f, 1);
+        text.drawCentered("LICAZA.DEV", 0, -4.75f, 1);
     }
 
     private void drawColumnPair(float x, float gapCenter) {
