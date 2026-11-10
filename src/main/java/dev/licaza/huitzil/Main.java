@@ -1,8 +1,7 @@
 package dev.licaza.huitzil;
 
+import dev.licaza.huitzil.game.Game;
 import dev.licaza.huitzil.graphics.Renderer;
-import dev.licaza.huitzil.graphics.Text;
-import dev.licaza.huitzil.graphics.Texture;
 import dev.licaza.huitzil.input.Input;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -14,24 +13,40 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Main {
 
-    // The world is 20 x 11.25 units (16:9), drawn at 16 px per unit and scaled x4
-    private static final float WORLD_WIDTH = 20.0f;
-    private static final float WORLD_HEIGHT = 11.25f;
+    // The game logic always advances in steps of 1/60 s, whatever the frame rate
+    private static final double STEP = 1.0 / 60.0;
+    // Longest frame time accepted, so a stall (like dragging the window) doesn't fast-forward the game
+    private static final double MAX_FRAME_TIME = 0.25;
 
     private final int width = 1280;
     private final int height = 720;
     private long window;
 
-    private Renderer renderer;
-    private Texture background, column, hummingbird, overlay;
-    private Text text;
+    private Game game;
 
     public void run() {
         init();
+
+        double previous = glfwGetTime();
+        double lag = 0;
         while (!glfwWindowShouldClose(window)) {
-            update();
-            render();
+            double now = glfwGetTime();
+            lag += Math.min(now - previous, MAX_FRAME_TIME);
+            previous = now;
+
+            glfwPollEvents();
+            if (Input.keys[GLFW_KEY_ESCAPE]) glfwSetWindowShouldClose(window, true);
+
+            while (lag >= STEP) {
+                game.update((float) STEP);
+                lag -= STEP;
+            }
+
+            glClear(GL_COLOR_BUFFER_BIT);
+            game.render();
+            glfwSwapBuffers(window);
         }
+
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
         glfwTerminate();
@@ -66,58 +81,7 @@ public class Main {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
 
-        renderer = new Renderer(WORLD_WIDTH, WORLD_HEIGHT);
-        background = new Texture("textures/background.png", true);
-        column = new Texture("textures/column.png");
-        hummingbird = new Texture("textures/hummingbird.png");
-        overlay = new Texture("textures/overlay.png");
-        text = new Text(renderer);
-    }
-
-    private void update() {
-        glfwPollEvents();
-        if (Input.keys[GLFW_KEY_ESCAPE]) glfwSetWindowShouldClose(window, true);
-    }
-
-    // Static scene to check the rendering; the game logic replaces it
-    private void render() {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        renderer.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-        drawColumnPair(1.0f, 0.5f);
-        drawColumnPair(7.0f, -1.75f);
-
-        int frame = (int) (glfwGetTime() / 0.05) % 2;
-        renderer.draw(hummingbird, -5, 0.5f, 1.25f, 1.25f, 0, frame * 0.5f, 0, 0.5f, 1);
-
-        // Demo: hold Space to see the game over screen
-        if (Input.keys[GLFW_KEY_SPACE]) drawGameOverScreen(12, 30);
-        else drawTitleScreen();
-
-        glfwSwapBuffers(window);
-    }
-
-    private void drawTitleScreen() {
-        renderer.draw(overlay, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-        text.drawCentered("HUITZIL", 0, 2.0f, 4);
-        text.drawCentered("PRESS SPACE", 0, -0.75f, 2);
-        text.drawCentered("LICAZA.DEV", 0, -4.75f, 1);
-    }
-
-    private void drawGameOverScreen(int score, int best) {
-        renderer.draw(overlay, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-        text.drawCentered("GAME OVER", 0, 2.5f, 3);
-        text.drawCentered("SCORE " + score, 0, 0.5f, 2);
-        text.drawCentered("BEST " + best, 0, -0.75f, 2);
-        text.drawCentered("PRESS SPACE", 0, -2.75f, 1);
-        text.drawCentered("LICAZA.DEV", 0, -4.75f, 1);
-    }
-
-    private void drawColumnPair(float x, float gapCenter) {
-        float gap = 3.5f, width = 1.5f, length = 8;
-        renderer.draw(column, x, gapCenter - gap / 2 - length / 2, width, length);
-        // The top column is the same sprite flipped vertically
-        renderer.draw(column, x, gapCenter + gap / 2 + length / 2, width, length, 0, 0, 1, 1, -1);
+        game = new Game(new Renderer(Game.WIDTH, Game.HEIGHT));
     }
 
     public static void main(String[] args) {
