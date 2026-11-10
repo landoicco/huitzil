@@ -154,7 +154,8 @@ a single layer.
 
 ## 8. User interface
 
-All text uses the pixel font at whole-pixel scales, centered horizontally.
+All text uses the pixel font, centered horizontally, at scales in multiples of
+0.25 so every font pixel covers whole screen pixels and stays sharp.
 
 The **Ready** and **Game over** states are splash screens: the world keeps
 being drawn underneath, dimmed by a translucent overlay, and both end with a
@@ -167,6 +168,10 @@ https://licaza.dev in the default browser.
 | Ready | `HUITZIL` (×4), `PRESS SPACE` (×2), `LICAZA.DEV` (×1) |
 | Playing | Current score at the top center (×2), no overlay |
 | Game over | `GAME OVER` (×3), `SCORE n` and `BEST n` (×2), `PRESS SPACE` (×1), `LICAZA.DEV` (×1) |
+
+Both splash screens also show the game version (`V1.0.0`, ×0.75) in the bottom
+right corner. It comes from the Maven project version through the jar
+manifest, so it is only set in `pom.xml`; outside the jar it reads `DEV`.
 
 ## 9. Audio
 

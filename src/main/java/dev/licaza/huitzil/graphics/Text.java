@@ -18,17 +18,20 @@ public class Text {
     }
 
     /** Width of the text in world units. */
-    public static float width(String text, int scale) {
+    public static float width(String text, float scale) {
         return text.length() * CELL_WIDTH * scale / PIXELS_PER_UNIT;
     }
 
     /** Height of a line of text in world units. */
-    public static float height(int scale) {
+    public static float height(float scale) {
         return CELL_HEIGHT * scale / PIXELS_PER_UNIT;
     }
 
-    /** Draws text centered horizontally on x, with y as its vertical center. Scale 1 is the font's pixel size. */
-    public void drawCentered(String text, float x, float y, int scale) {
+    /**
+     * Draws text centered horizontally on x, with y as its vertical center. Scale 1 is the font's pixel size;
+     * use multiples of 0.25 so every font pixel covers whole screen pixels and stays sharp.
+     */
+    public void drawCentered(String text, float x, float y, float scale) {
         float charWidth = width("X", scale);
         float charHeight = height(scale);
         float glyphWidth = 1.0f / GLYPHS.length();

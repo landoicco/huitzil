@@ -32,6 +32,13 @@ public class Game {
     // Turns the cream text (#fff3d6) into sun yellow (#ffc767)
     private static final float[] LINK_HOVER_TINT = {1.0f, 0.82f, 0.48f};
 
+    // Comes from the pom through the jar manifest; there is no manifest when running outside the jar
+    private static final String VERSION = Game.class.getPackage().getImplementationVersion() != null
+            ? "V" + Game.class.getPackage().getImplementationVersion()
+            : "DEV";
+    private static final float VERSION_SCALE = 0.75f;
+    private static final float VERSION_MARGIN = 0.5f;
+
     private enum State { READY, PLAYING, GAME_OVER }
 
     private final Renderer renderer;
@@ -176,10 +183,14 @@ public class Game {
         drawLink();
     }
 
-    // The link turns sun yellow on hover, so it reads as clickable
+    // Footer of both splash screens: the portfolio link in the center, the version in the bottom right corner
     private void drawLink() {
+        // The link turns sun yellow on hover, so it reads as clickable
         if (isLinkHovered()) renderer.setTint(LINK_HOVER_TINT[0], LINK_HOVER_TINT[1], LINK_HOVER_TINT[2]);
         text.drawCentered(LINK_TEXT, 0, LINK_Y, LINK_SCALE);
         renderer.resetTint();
+
+        float versionX = WIDTH / 2 - VERSION_MARGIN - Text.width(VERSION, VERSION_SCALE) / 2;
+        text.drawCentered(VERSION, versionX, LINK_Y, VERSION_SCALE);
     }
 }
