@@ -13,8 +13,8 @@ game engine.
 
 Playable! 🎉 The full game loop from the [game design document](docs/GDD.md)
 is in: art, physics, columns, scoring, best score and splash screens. Ready-to-play
-builds for Windows, macOS and Linux are made automatically, and sound effects
-are in. Next up: ambient music.
+builds for Windows, macOS and Linux are made automatically, with sound effects
+and music.
 
 ## ▶️ Play
 
@@ -67,7 +67,8 @@ tar -xzf Huitzil-linux.tar.gz
 - 🏛️ Endless columns with randomly placed gaps.
 - 🏆 Score and best score, saved between sessions.
 - 🎨 Original pixel art with a sunset palette and Mexica greca patterns.
-- 🔊 Retro sound effects synthesized from scratch, with a mute key.
+- 🔊 Retro sound effects synthesized from scratch, cozy background music and a
+  mute key.
 - ⏱️ Fixed-timestep game loop: the game plays the same at any frame rate.
 
 ## 🎮 Controls
@@ -85,7 +86,7 @@ tar -xzf Huitzil-linux.tar.gz
 |---|---|
 | ☕ Language | Java 17 |
 | 🖥️ Graphics | LWJGL 3 — OpenGL 3.3 core, GLFW |
-| 🔊 Audio | LWJGL 3 — OpenAL |
+| 🔊 Audio | LWJGL 3 — OpenAL, stb_vorbis |
 | 📦 Build | Maven, packaged as a single runnable jar |
 | 🚚 Releases | GitHub Actions + `jpackage`: Windows, macOS and Linux apps with Java inside |
 | ❄️ Dev environment | Nix flake |
@@ -119,7 +120,7 @@ On macOS, add `-XstartOnFirstThread` before `-jar`.
 ```
 src/main/java/dev/licaza/huitzil
 ├── Main.java     window and game loop
-├── audio/        audio device and sound effects
+├── audio/        audio device, sound effects and music
 ├── game/         game states, hummingbird, columns, scoring
 ├── graphics/     sprite renderer, shaders, textures, text
 ├── input/        keyboard state
@@ -137,3 +138,8 @@ The concept, mechanics, tuning values and art direction are described in the
 ## 👤 Author
 
 Made by **Lando Icaza** — [licaza.dev](https://licaza.dev)
+
+## 🙏 Credits
+
+- 🎵 Music: [*Apple Cider*](https://opengameart.org/content/apple-cider) by
+  **Zane Little Music**, released under CC0.

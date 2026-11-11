@@ -189,15 +189,23 @@ match the pixel art:
 | `hit.wav` | Hitting a column or an edge | Dull stone thud: a falling low tone under a burst of noise |
 
 They are 44.1 kHz, 16-bit mono WAV files with smooth envelopes, so they play
-without clicks. `M` mutes every sound. Without an audio device the game runs
-silently.
+without clicks.
+
+Background music: [*Apple Cider*](https://opengameart.org/content/apple-cider)
+by Zane Little Music (CC0), a cozy, relaxed chiptune with flute and guitar. It
+loops from the moment the game opens, at 35 % volume so the sound effects stay
+in front. The 3:20 track is streamed from its OGG file rather than decoded
+whole.
+
+`M` mutes the music and the sound effects. Without an audio device the game
+runs silently.
 
 ## 10. Technical overview
 
 | | |
 |---|---|
 | Language | Java 17 |
-| Libraries | LWJGL 3 (GLFW, OpenGL, OpenAL) — no game engine |
+| Libraries | LWJGL 3 (GLFW, OpenGL, OpenAL, stb_vorbis) — no game engine |
 | Rendering | OpenGL 3.3 core, one textured quad and one shader for everything |
 | Build | Maven, packaged as a single runnable jar |
 | Dev environment | Nix flake (`nix develop`) |
@@ -207,7 +215,7 @@ silently.
 ```
 dev.licaza.huitzil
 ├── Main          window, game loop
-├── audio         audio device, sound effects, mute
+├── audio         audio device, sound effects, music, mute
 ├── game          game states, hummingbird, columns, scoring
 ├── graphics      shader, texture, vertex array, text
 ├── input         keyboard state

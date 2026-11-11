@@ -1,6 +1,7 @@
 package dev.licaza.huitzil.game;
 
 import dev.licaza.huitzil.audio.Audio;
+import dev.licaza.huitzil.audio.Music;
 import dev.licaza.huitzil.audio.Sound;
 import dev.licaza.huitzil.graphics.Renderer;
 import dev.licaza.huitzil.graphics.Text;
@@ -53,6 +54,8 @@ public class Game {
     private final Sound flapSound = new Sound("sounds/flap.wav");
     private final Sound scoreSound = new Sound("sounds/score.wav");
     private final Sound hitSound = new Sound("sounds/hit.wav");
+    // Well below the sound effects, so it stays in the background
+    private final Music music = new Music("sounds/apple_cider.ogg", 0.35f);
 
     private final Hummingbird hummingbird = new Hummingbird();
     private final ColumnPair[] pairs = new ColumnPair[PAIR_COUNT];
@@ -70,6 +73,7 @@ public class Game {
         this.renderer = renderer;
         this.text = new Text(renderer);
         Audio.setMuted(muted);
+        music.play();
         for (int i = 0; i < PAIR_COUNT; i++) pairs[i] = new ColumnPair();
         reset();
     }
@@ -85,6 +89,7 @@ public class Game {
         // Read every step, so a press made while input is ignored doesn't fire later
         boolean flap = Input.wasPressed(GLFW_KEY_SPACE);
         if (Input.wasPressed(GLFW_KEY_M)) toggleMute();
+        music.update();
 
         switch (state) {
             case READY -> {
