@@ -42,6 +42,7 @@ jobs:
           mvn -B -q package
           mkdir input && cp target/huitzil.jar input/
           echo "VERSION=$(mvn -B -q help:evaluate -Dexpression=project.version -DforceStdout)" >> "$GITHUB_ENV"
+          echo "DESCRIPTION=$(mvn -B -q help:evaluate -Dexpression=project.description -DforceStdout)" >> "$GITHUB_ENV"
 
       # A trimmed Java runtime goes inside the app, so players don't need Java installed
       - name: Package app
@@ -57,6 +58,8 @@ jobs:
             --name Huitzil \
             --app-version "$VERSION" \
             --vendor licaza.dev \
+            --description "$DESCRIPTION" \
+            --copyright "Copyright (c) 2022-$(date +%Y) Lando Icaza" \
             --input input \
             --main-jar huitzil.jar \
             --add-modules java.desktop,java.prefs,jdk.unsupported \

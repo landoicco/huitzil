@@ -16,6 +16,8 @@ public class Browser {
 
         // The game may run with its own native libraries on the path; the browser shouldn't inherit them
         builder.environment().remove("LD_LIBRARY_PATH");
+        // Nobody reads its output; a browser left writing into the game's pipes could block or die when the game exits
+        builder.redirectOutput(ProcessBuilder.Redirect.DISCARD).redirectError(ProcessBuilder.Redirect.DISCARD);
         try {
             builder.start();
         } catch (IOException e) {

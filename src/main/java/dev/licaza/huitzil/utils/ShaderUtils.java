@@ -13,35 +13,32 @@ public class ShaderUtils {
         return create(vert, frag);
     }
 
+    // Fails loudly: a broken shader would otherwise leave the screen black
     private static int create(String vert, String frag) {
+        int vertID = compile(GL_VERTEX_SHADER, vert);
+        int fragID = compile(GL_FRAGMENT_SHADER, frag);
+
         int program = glCreateProgram();
-        int vertID = glCreateShader(GL_VERTEX_SHADER);
-        int fragID = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(vertID, vert);
-        glShaderSource(fragID, frag);
-
-        glCompileShader(vertID);
-        if (glGetShaderi(vertID, GL_COMPILE_STATUS) == GL_FALSE) {
-            System.err.println("Failed to compile vertex shader!");
-            System.err.println(glGetShaderInfoLog(vertID));
-            return -1;
-        }
-
-        glCompileShader(fragID);
-        if (glGetShaderi(fragID, GL_COMPILE_STATUS) == GL_FALSE) {
-            System.err.println("Failed to compile fragment shader!");
-            System.err.println(glGetShaderInfoLog(fragID));
-            return -1;
-        }
-
         glAttachShader(program, vertID);
         glAttachShader(program, fragID);
         glLinkProgram(program);
-        glValidateProgram(program);
+        if (glGetProgrami(program, GL_LINK_STATUS) == GL_FALSE) {
+            throw new IllegalStateException("Could not link shader program:\n" + glGetProgramInfoLog(program));
+        }
 
         glDeleteShader(vertID);
         glDeleteShader(fragID);
-
         return program;
+    }
+
+    private static int compile(int type, String source) {
+        int shader = glCreateShader(type);
+        glShaderSource(shader, source);
+        glCompileShader(shader);
+        if (glGetShaderi(shader, GL_COMPILE_STATUS) == GL_FALSE) {
+            String kind = type == GL_VERTEX_SHADER ? "vertex" : "fragment";
+            throw new IllegalStateException("Could not compile " + kind + " shader:\n" + glGetShaderInfoLog(shader));
+        }
+        return shader;
     }
 }

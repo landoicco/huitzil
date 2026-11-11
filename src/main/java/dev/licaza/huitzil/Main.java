@@ -81,18 +81,8 @@ public class Main {
             glfwSetWindowPos(window, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2);
         }
 
-        glfwSetKeyCallback(window, new Input());
-        // Window pixels (origin at the top left) to world units (origin at the center)
-        glfwSetCursorPosCallback(window, (w, x, y) ->
-                game.mouseMoved((float) (x / width - 0.5) * Game.WIDTH, (float) (0.5 - y / height) * Game.HEIGHT));
-        glfwSetMouseButtonCallback(window, (w, button, action, mods) -> {
-            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) game.click();
-        });
-        handCursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
-
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
-        glfwShowWindow(window);
         GL.createCapabilities();
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -100,6 +90,22 @@ public class Main {
         Audio.init();
 
         game = new Game(new Renderer(Game.WIDTH, Game.HEIGHT));
+
+        // Registered once the game exists, since they call into it
+        glfwSetKeyCallback(window, new Input());
+        // Window pixels (origin at the top left) to world units (origin at the center)
+        glfwSetCursorPosCallback(window, (w, x, y) ->
+                game.mouseMoved((float) (x / width - 0.5) * Game.WIDTH, (float) (0.5 - y / height) * Game.HEIGHT));
+        glfwSetMouseButtonCallback(window, (w, button, action, mods) -> {
+            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) game.click();
+        });
+        // The framebuffer changes size when the window moves between screens with different scaling
+        glfwSetFramebufferSizeCallback(window, (w, framebufferWidth, framebufferHeight) ->
+                glViewport(0, 0, framebufferWidth, framebufferHeight));
+        handCursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
+
+        // Shown last, so the window doesn't sit empty while the game loads
+        glfwShowWindow(window);
     }
 
     // Title bar and taskbar icon; macOS takes it from the app bundle instead
