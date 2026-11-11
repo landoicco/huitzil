@@ -1,5 +1,6 @@
 package dev.licaza.huitzil.game;
 
+import dev.licaza.huitzil.audio.Sound;
 import dev.licaza.huitzil.graphics.Renderer;
 import dev.licaza.huitzil.graphics.Text;
 import dev.licaza.huitzil.graphics.Texture;
@@ -46,6 +47,9 @@ public class Game {
     private final Texture background = new Texture("textures/background.png", true);
     private final Texture column = new Texture("textures/column.png");
     private final Texture overlay = new Texture("textures/overlay.png");
+    private final Sound flapSound = new Sound("sounds/flap.wav");
+    private final Sound scoreSound = new Sound("sounds/score.wav");
+    private final Sound hitSound = new Sound("sounds/hit.wav");
 
     private final Hummingbird hummingbird = new Hummingbird();
     private final ColumnPair[] pairs = new ColumnPair[PAIR_COUNT];
@@ -82,12 +86,12 @@ public class Game {
                 hummingbird.hover(dt);
                 if (flap) {
                     state = State.PLAYING;
-                    hummingbird.flap();
+                    flap();
                 }
             }
             case PLAYING -> {
                 scrollBackground(dt);
-                if (flap) hummingbird.flap();
+                if (flap) flap();
                 hummingbird.fall(dt);
                 moveColumns(dt);
                 if (collides()) gameOver();
@@ -98,6 +102,11 @@ public class Game {
                 if (flap && gameOverTime >= GAME_OVER_DELAY) reset();
             }
         }
+    }
+
+    private void flap() {
+        hummingbird.flap();
+        flapSound.play();
     }
 
     private void scrollBackground(float dt) {
@@ -111,7 +120,10 @@ public class Game {
             if (pair.getX() < -WIDTH / 2 - ColumnPair.WIDTH) {
                 pair.reset(pair.getX() + PAIR_COUNT * PAIR_SPACING, random);
             }
-            if (pair.score(Hummingbird.X)) score++;
+            if (pair.score(Hummingbird.X)) {
+                score++;
+                scoreSound.play();
+            }
         }
     }
 
@@ -130,6 +142,7 @@ public class Game {
         state = State.GAME_OVER;
         gameOverTime = 0;
         hummingbird.die();
+        hitSound.play();
         if (score > best) {
             best = score;
             preferences.putInt("best", best);
