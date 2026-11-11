@@ -171,7 +171,7 @@ https://licaza.dev in the default browser.
 | Playing | Current score at the top center (×2), no overlay |
 | Game over | `GAME OVER` (×3), `SCORE n` and `BEST n` (×2), `PRESS SPACE` (×1), `LICAZA.DEV` (×1) |
 
-Both splash screens also show the game version (`V1.0.0`, ×0.75) in the bottom
+Both splash screens also show the game version (`V1.1.0`, ×0.75) in the bottom
 right corner. It comes from the Maven project version through the jar
 manifest, so it is only set in `pom.xml`; outside the jar it reads `DEV`. The
 bottom left corner shows the sound toggle, `M SOUND ON` or `M SOUND OFF`

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>dev.licaza</groupId>
     <artifactId>huitzil</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>Huitzil</name>
     <description>A one-button arcade game about a hummingbird, built with Java and LWJGL</description>
     <url>https://github.com/landoicco/huitzil</url>

@@ -3,6 +3,14 @@
 How the game is built and why. For what the game is, see the
 [game design document](GDD.md).
 
+## History
+
+Started in 2022 as a learning exercise; rebuilt in 2026 as an original game.
+The early commits are a Flappy Bird clone made while learning LWJGL. The 2026
+rebuild replaced its art with original assets and added the design document,
+sound, packaging and releases, with [Claude Code](https://claude.com/claude-code)
+as an AI pair programmer.
+
 ## Stack
 
 | | |
