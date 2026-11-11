@@ -1,5 +1,6 @@
 package dev.licaza.huitzil;
 
+import dev.licaza.huitzil.audio.Audio;
 import dev.licaza.huitzil.game.Game;
 import dev.licaza.huitzil.graphics.Image;
 import dev.licaza.huitzil.graphics.Renderer;
@@ -53,6 +54,7 @@ public class Main {
             glfwSwapBuffers(window);
         }
 
+        Audio.destroy();
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
         glfwTerminate();
@@ -95,6 +97,7 @@ public class Main {
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
+        Audio.init();
 
         game = new Game(new Renderer(Game.WIDTH, Game.HEIGHT));
     }

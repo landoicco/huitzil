@@ -1,5 +1,8 @@
 package dev.licaza.huitzil.game;
 
+import dev.licaza.huitzil.audio.Audio;
+import dev.licaza.huitzil.audio.Music;
+import dev.licaza.huitzil.audio.Sound;
 import dev.licaza.huitzil.graphics.Renderer;
 import dev.licaza.huitzil.graphics.Text;
 import dev.licaza.huitzil.graphics.Texture;
@@ -9,6 +12,7 @@ import dev.licaza.huitzil.utils.Browser;
 import java.util.Random;
 import java.util.prefs.Preferences;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_M;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 public class Game {
@@ -36,8 +40,9 @@ public class Game {
     private static final String VERSION = Game.class.getPackage().getImplementationVersion() != null
             ? "V" + Game.class.getPackage().getImplementationVersion()
             : "DEV";
-    private static final float VERSION_SCALE = 0.75f;
-    private static final float VERSION_MARGIN = 0.5f;
+    // The version and the sound toggle hint sit in the bottom corners, small
+    private static final float CORNER_SCALE = 0.75f;
+    private static final float CORNER_MARGIN = 0.5f;
 
     private enum State { READY, PLAYING, GAME_OVER }
 
@@ -46,6 +51,11 @@ public class Game {
     private final Texture background = new Texture("textures/background.png", true);
     private final Texture column = new Texture("textures/column.png");
     private final Texture overlay = new Texture("textures/overlay.png");
+    private final Sound flapSound = new Sound("sounds/flap.wav");
+    private final Sound scoreSound = new Sound("sounds/score.wav");
+    private final Sound hitSound = new Sound("sounds/hit.wav");
+    // Well below the sound effects, so it stays in the background
+    private final Music music = new Music("sounds/apple_cider.ogg", 0.35f);
 
     private final Hummingbird hummingbird = new Hummingbird();
     private final ColumnPair[] pairs = new ColumnPair[PAIR_COUNT];
@@ -57,10 +67,13 @@ public class Game {
     private float mouseX, mouseY;
     private int score;
     private int best = preferences.getInt("best", 0);
+    private boolean muted = preferences.getBoolean("muted", false);
 
     public Game(Renderer renderer) {
         this.renderer = renderer;
         this.text = new Text(renderer);
+        Audio.setMuted(muted);
+        music.play();
         for (int i = 0; i < PAIR_COUNT; i++) pairs[i] = new ColumnPair();
         reset();
     }
@@ -75,6 +88,8 @@ public class Game {
     public void update(float dt) {
         // Read every step, so a press made while input is ignored doesn't fire later
         boolean flap = Input.wasPressed(GLFW_KEY_SPACE);
+        if (Input.wasPressed(GLFW_KEY_M)) toggleMute();
+        music.update();
 
         switch (state) {
             case READY -> {
@@ -82,12 +97,12 @@ public class Game {
                 hummingbird.hover(dt);
                 if (flap) {
                     state = State.PLAYING;
-                    hummingbird.flap();
+                    flap();
                 }
             }
             case PLAYING -> {
                 scrollBackground(dt);
-                if (flap) hummingbird.flap();
+                if (flap) flap();
                 hummingbird.fall(dt);
                 moveColumns(dt);
                 if (collides()) gameOver();
@@ -98,6 +113,18 @@ public class Game {
                 if (flap && gameOverTime >= GAME_OVER_DELAY) reset();
             }
         }
+    }
+
+    // Works in every state and is remembered between sessions
+    private void toggleMute() {
+        muted = !muted;
+        Audio.setMuted(muted);
+        preferences.putBoolean("muted", muted);
+    }
+
+    private void flap() {
+        hummingbird.flap();
+        flapSound.play();
     }
 
     private void scrollBackground(float dt) {
@@ -111,7 +138,10 @@ public class Game {
             if (pair.getX() < -WIDTH / 2 - ColumnPair.WIDTH) {
                 pair.reset(pair.getX() + PAIR_COUNT * PAIR_SPACING, random);
             }
-            if (pair.score(Hummingbird.X)) score++;
+            if (pair.score(Hummingbird.X)) {
+                score++;
+                scoreSound.play();
+            }
         }
     }
 
@@ -130,6 +160,7 @@ public class Game {
         state = State.GAME_OVER;
         gameOverTime = 0;
         hummingbird.die();
+        hitSound.play();
         if (score > best) {
             best = score;
             preferences.putInt("best", best);
@@ -183,14 +214,19 @@ public class Game {
         drawLink();
     }
 
-    // Footer of both splash screens: the portfolio link in the center, the version in the bottom right corner
+    // Footer of both splash screens: the sound toggle hint in the bottom left corner,
+    // the portfolio link in the center and the version in the bottom right corner
     private void drawLink() {
         // The link turns sun yellow on hover, so it reads as clickable
         if (isLinkHovered()) renderer.setTint(LINK_HOVER_TINT[0], LINK_HOVER_TINT[1], LINK_HOVER_TINT[2]);
         text.drawCentered(LINK_TEXT, 0, LINK_Y, LINK_SCALE);
         renderer.resetTint();
 
-        float versionX = WIDTH / 2 - VERSION_MARGIN - Text.width(VERSION, VERSION_SCALE) / 2;
-        text.drawCentered(VERSION, versionX, LINK_Y, VERSION_SCALE);
+        float versionX = WIDTH / 2 - CORNER_MARGIN - Text.width(VERSION, CORNER_SCALE) / 2;
+        text.drawCentered(VERSION, versionX, LINK_Y, CORNER_SCALE);
+
+        String sound = muted ? "M SOUND OFF" : "M SOUND ON";
+        float soundX = -WIDTH / 2 + CORNER_MARGIN + Text.width(sound, CORNER_SCALE) / 2;
+        text.drawCentered(sound, soundX, LINK_Y, CORNER_SCALE);
     }
 }

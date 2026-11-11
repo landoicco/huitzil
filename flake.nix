@@ -9,9 +9,11 @@
       pkgs = nixpkgs.legacyPackages.${system};
       jdk = pkgs.jdk17;
 
-      # Native libraries that GLFW and OpenGL load at runtime through LWJGL
+      # Native libraries that GLFW, OpenGL and OpenAL load at runtime through LWJGL
       runtimeLibs = with pkgs; [
+        alsa-lib
         libGL
+        libpulseaudio
         libx11
         libxcursor
         libxext
