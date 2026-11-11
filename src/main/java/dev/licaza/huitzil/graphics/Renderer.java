@@ -49,7 +49,7 @@ public class Renderer {
 
     /** Multiplies the color of everything drawn next, until resetTint() is called. */
     public void setTint(float r, float g, float b) {
-        shader.setUniform3f("tint", new Vector3f(r, g, b));
+        shader.setUniform3f("tint", r, g, b);
     }
 
     public void resetTint() {

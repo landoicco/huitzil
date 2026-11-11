@@ -1,9 +1,5 @@
 package dev.licaza.huitzil.math;
 
-import dev.licaza.huitzil.utils.BufferUtils;
-
-import java.nio.FloatBuffer;
-
 public class Matrix4f {
 
     private static final int SIZE = 4 * 4;
@@ -77,9 +73,5 @@ public class Matrix4f {
         }
 
         return result;
-    }
-
-    public FloatBuffer toFloatBuffer() {
-        return BufferUtils.createFloatBuffer(elements);
     }
 }

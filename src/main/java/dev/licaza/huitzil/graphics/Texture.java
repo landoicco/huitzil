@@ -5,8 +5,7 @@ import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 public class Texture {
 
-    private int width, height;
-    private int texture;
+    private final int texture;
 
     public Texture(String path) {
         this(path, false);
@@ -19,16 +18,13 @@ public class Texture {
 
     private int load(String path, int wrap) {
         Image image = Image.load(path);
-        width = image.width();
-        height = image.height();
-
         int result = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, result);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.pixels());
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.pixels());
         unbind();
         return result;
     }
