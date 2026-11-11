@@ -106,6 +106,8 @@ jobs:
           pattern: Huitzil-*
           path: dist
           merge-multiple: true
+          # Keep Huitzil-windows.zip as a file instead of extracting it
+          skip-decompress: true
 
       - name: Publish release
         env:
