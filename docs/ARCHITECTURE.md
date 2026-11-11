@@ -74,8 +74,8 @@ they work the same from the IDE and from inside the jar.
 - **Everything is original or CC0.** The art and sound effects were made for
   the game; the music is CC0 (see the README credits).
 - **Generated assets.** The sound effects were synthesized from band-limited
-  waveforms, and the app icon and the README banner were composed from the
-  game's own sprites, by small one-off programs. *Why:* consistent style and
+  waveforms, and the app icon, the README banner and the social preview were
+  composed from the game's own sprites, by small one-off programs. *Why:* consistent style and
   no third-party assets. The programs aren't kept in the repository, only
   their output.
 
