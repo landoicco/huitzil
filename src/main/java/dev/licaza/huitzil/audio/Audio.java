@@ -7,6 +7,8 @@ import org.lwjgl.openal.ALCCapabilities;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
+import static org.lwjgl.openal.AL10.AL_GAIN;
+import static org.lwjgl.openal.AL10.alListenerf;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -28,6 +30,11 @@ public class Audio {
         context = alcCreateContext(device, (IntBuffer) null);
         alcMakeContextCurrent(context);
         AL.createCapabilities(capabilities);
+    }
+
+    // Silences every sound at once through the listener's volume
+    public static void setMuted(boolean muted) {
+        if (isAvailable()) alListenerf(AL_GAIN, muted ? 0 : 1);
     }
 
     public static boolean isAvailable() {

@@ -37,6 +37,7 @@ the greca patterns on the stone) and in this document.
 | Key | Action |
 |---|---|
 | `Space` | Flap / start / restart |
+| `M` | Sound on / off, remembered between sessions |
 | `Esc` | Quit |
 | Click `LICAZA.DEV` | Open the author's portfolio (splash screens only) |
 
@@ -172,18 +173,31 @@ https://licaza.dev in the default browser.
 
 Both splash screens also show the game version (`V1.0.0`, ×0.75) in the bottom
 right corner. It comes from the Maven project version through the jar
-manifest, so it is only set in `pom.xml`; outside the jar it reads `DEV`.
+manifest, so it is only set in `pom.xml`; outside the jar it reads `DEV`. The
+bottom left corner shows the sound toggle, `M SOUND ON` or `M SOUND OFF`
+(×0.75).
 
 ## 9. Audio
 
-Out of scope for version 1.0.
+Three short retro sound effects, synthesized from simple waveforms so they
+match the pixel art:
+
+| Sound | When | Description |
+|---|---|---|
+| `flap.wav` | Every flap, including the one that starts a run | Quick, soft upward chirp (70 ms) |
+| `score.wav` | Passing a pair of columns | Two bright rising notes, B5 → E6 |
+| `hit.wav` | Hitting a column or an edge | Dull stone thud: a falling low tone under a burst of noise |
+
+They are 44.1 kHz, 16-bit mono WAV files with smooth envelopes, so they play
+without clicks. `M` mutes every sound. Without an audio device the game runs
+silently.
 
 ## 10. Technical overview
 
 | | |
 |---|---|
 | Language | Java 17 |
-| Libraries | LWJGL 3 (GLFW, OpenGL) — no game engine |
+| Libraries | LWJGL 3 (GLFW, OpenGL, OpenAL) — no game engine |
 | Rendering | OpenGL 3.3 core, one textured quad and one shader for everything |
 | Build | Maven, packaged as a single runnable jar |
 | Dev environment | Nix flake (`nix develop`) |
@@ -193,6 +207,7 @@ Out of scope for version 1.0.
 ```
 dev.licaza.huitzil
 ├── Main          window, game loop
+├── audio         audio device, sound effects, mute
 ├── game          game states, hummingbird, columns, scoring
 ├── graphics      shader, texture, vertex array, text
 ├── input         keyboard state
@@ -212,6 +227,5 @@ a single shader for the hummingbird, the columns, the background and the text.
 
 ### Ideas for later
 
-- Sound effects (wings, score, hit).
 - Flowers in some gaps that give bonus points.
 - Day-to-night cycle as the score grows.

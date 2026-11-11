@@ -13,8 +13,8 @@ game engine.
 
 Playable! 🎉 The full game loop from the [game design document](docs/GDD.md)
 is in: art, physics, columns, scoring, best score and splash screens. Ready-to-play
-builds for Windows, macOS and Linux are made automatically. Next up: sound
-effects.
+builds for Windows, macOS and Linux are made automatically, and sound effects
+are in. Next up: ambient music.
 
 ## ▶️ Play
 
@@ -67,6 +67,7 @@ tar -xzf Huitzil-linux.tar.gz
 - 🏛️ Endless columns with randomly placed gaps.
 - 🏆 Score and best score, saved between sessions.
 - 🎨 Original pixel art with a sunset palette and Mexica greca patterns.
+- 🔊 Retro sound effects synthesized from scratch, with a mute key.
 - ⏱️ Fixed-timestep game loop: the game plays the same at any frame rate.
 
 ## 🎮 Controls
@@ -74,6 +75,7 @@ tar -xzf Huitzil-linux.tar.gz
 | Key | Action |
 |---|---|
 | `Space` | Flap / start / restart |
+| `M` | Sound on / off |
 | `Esc` | Quit |
 | 🖱️ Click `LICAZA.DEV` | Open my portfolio (title and game over screens) |
 
@@ -83,6 +85,7 @@ tar -xzf Huitzil-linux.tar.gz
 |---|---|
 | ☕ Language | Java 17 |
 | 🖥️ Graphics | LWJGL 3 — OpenGL 3.3 core, GLFW |
+| 🔊 Audio | LWJGL 3 — OpenAL |
 | 📦 Build | Maven, packaged as a single runnable jar |
 | 🚚 Releases | GitHub Actions + `jpackage`: Windows, macOS and Linux apps with Java inside |
 | ❄️ Dev environment | Nix flake |
@@ -116,6 +119,7 @@ On macOS, add `-XstartOnFirstThread` before `-jar`.
 ```
 src/main/java/dev/licaza/huitzil
 ├── Main.java     window and game loop
+├── audio/        audio device and sound effects
 ├── game/         game states, hummingbird, columns, scoring
 ├── graphics/     sprite renderer, shaders, textures, text
 ├── input/        keyboard state
