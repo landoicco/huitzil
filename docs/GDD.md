@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | **Genre** | One-button arcade, endless side-scroller |
-| **Platform** | Desktop (Linux first), Java 17 + LWJGL / OpenGL 3.3 |
+| **Platform** | Desktop: Windows, macOS and Linux |
 | **Session length** | 30 seconds to a few minutes per run |
 | **Audience** | Anyone; easy to learn, hard to master |
 
@@ -194,46 +194,19 @@ without clicks.
 Background music: [*Apple Cider*](https://opengameart.org/content/apple-cider)
 by Zane Little Music (CC0), a cozy, relaxed chiptune with flute and guitar. It
 loops from the moment the game opens, at 35 % volume so the sound effects stay
-in front. The 3:20 track is streamed from its OGG file rather than decoded
-whole.
+in front.
 
 `M` mutes the music and the sound effects. Without an audio device the game
 runs silently.
 
-## 10. Technical overview
+## 10. Scope
 
-| | |
+How the game is built is described in the [architecture document](ARCHITECTURE.md).
+
+| Version | Content |
 |---|---|
-| Language | Java 17 |
-| Libraries | LWJGL 3 (GLFW, OpenGL, OpenAL, stb_vorbis) — no game engine |
-| Rendering | OpenGL 3.3 core, one textured quad and one shader for everything |
-| Build | Maven, packaged as a single runnable jar |
-| Dev environment | Nix flake (`nix develop`) |
+| 1.0 | The full game loop: art, physics, columns, scoring, best score and splash screens |
+| 1.1 | Sound effects, music and mute; ready-to-play apps for Windows, macOS and Linux |
 
-### Code structure
-
-```
-dev.licaza.huitzil
-├── Main          window, game loop
-├── audio         audio device, sound effects, music, mute
-├── game          game states, hummingbird, columns, scoring
-├── graphics      shader, texture, vertex array, text
-├── input         keyboard state
-├── math          vector and matrix
-└── utils         file and buffer helpers
-```
-
-Every sprite is drawn with the same unit quad: its position, size, rotation and
-which part of the texture to show are passed to the shader each draw. That keeps
-a single shader for the hummingbird, the columns, the background and the text.
-
-## 11. Scope
-
-### Version 1.0
-
-- Everything in this document.
-
-### Ideas for later
-
-- Flowers in some gaps that give bonus points.
-- Day-to-night cycle as the score grows.
+The game is complete at version 1.1. It is meant to stay small and polished,
+so no more features are planned.

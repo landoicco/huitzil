@@ -1,24 +1,24 @@
-# 🐦 Huitzil
+<p align="center">
+  <img src="docs/banner.png" alt="Huitzil: a hummingbird arcade game">
+</p>
+
+<p align="center">
+  <b>A one-button arcade game about a hummingbird darting through the carved stone
+  columns of an ancient Mexica city at sunset.</b><br>
+  Built from scratch with Java and LWJGL, without a game engine.
+</p>
+
+<p align="center">
+  <a href="https://github.com/landoicco/huitzil/releases/latest">⬇️ Download</a> ·
+  <a href="docs/GDD.md">📖 Game design</a> ·
+  <a href="docs/ARCHITECTURE.md">🏗️ Architecture</a>
+</p>
 
 > *Huitzil* comes from *huitzilin*, "hummingbird" in Nahuatl.
 
-A one-button arcade game about a hummingbird darting through the carved stone
-columns of an ancient Mexica city at sunset. Tap to beat its wings, slip
-through the gaps and see how far it can go. 🌅
-
-Built from scratch with **Java** and **LWJGL** (OpenGL + GLFW), without a
-game engine.
-
-## 🚧 Status
-
-Playable! 🎉 The full game loop from the [game design document](docs/GDD.md)
-is in: art, physics, columns, scoring, best score and splash screens. Ready-to-play
-builds for Windows, macOS and Linux are made automatically, with sound effects
-and music.
-
 ## ▶️ Play
 
-**[⬇️ Download the latest version](https://github.com/landoicco/huitzil/releases/latest)**
+**[Download the latest version](https://github.com/landoicco/huitzil/releases/latest)**
 and pick the file for your computer. Nothing else to install: Java comes inside
 the game.
 
@@ -61,16 +61,6 @@ tar -xzf Huitzil-linux.tar.gz
 
 </details>
 
-## ✨ Features (v1.0)
-
-- 🪶 Simple controls: one key to flap.
-- 🏛️ Endless columns with randomly placed gaps.
-- 🏆 Score and best score, saved between sessions.
-- 🎨 Original pixel art with a sunset palette and Mexica greca patterns.
-- 🔊 Retro sound effects synthesized from scratch, cozy background music and a
-  mute key.
-- ⏱️ Fixed-timestep game loop: the game plays the same at any frame rate.
-
 ## 🎮 Controls
 
 | Key | Action |
@@ -80,22 +70,18 @@ tar -xzf Huitzil-linux.tar.gz
 | `Esc` | Quit |
 | 🖱️ Click `LICAZA.DEV` | Open my portfolio (title and game over screens) |
 
-## 🛠️ Tech stack
+## ✨ Features
 
-| | |
-|---|---|
-| ☕ Language | Java 17 |
-| 🖥️ Graphics | LWJGL 3 — OpenGL 3.3 core, GLFW |
-| 🔊 Audio | LWJGL 3 — OpenAL, stb_vorbis |
-| 📦 Build | Maven, packaged as a single runnable jar |
-| 🚚 Releases | GitHub Actions + `jpackage`: Windows, macOS and Linux apps with Java inside |
-| ❄️ Dev environment | Nix flake |
+- 🪶 One key to play, endless columns with random gaps.
+- 🏆 Score and best score, saved between sessions.
+- 🎨 Original pixel art with a sunset palette and Mexica greca patterns.
+- 🔊 Retro sound effects synthesized from scratch and cozy background music.
+- ⏱️ Fixed-timestep game loop: the same game at any frame rate.
 
-## 🚀 Getting started
+## 🛠️ Build from source
 
-### With Nix (recommended)
-
-The flake provides the JDK, Maven and the native libraries OpenGL needs:
+With [Nix](https://nixos.org), which provides the JDK, Maven and the native
+libraries:
 
 ```sh
 nix develop
@@ -103,43 +89,15 @@ mvn package
 java -jar target/huitzil.jar
 ```
 
-### Without Nix
-
-You need **JDK 17+** and **Maven 3.9+** on Linux (x86_64), Windows (x86_64) or
-macOS (Apple Silicon). The build picks the native libraries for your system:
-
-```sh
-mvn package
-java -jar target/huitzil.jar
-```
-
-On macOS, add `-XstartOnFirstThread` before `-jar`.
-
-## 📁 Project structure
-
-```
-src/main/java/dev/licaza/huitzil
-├── Main.java     window and game loop
-├── audio/        audio device, sound effects and music
-├── game/         game states, hummingbird, columns, scoring
-├── graphics/     sprite renderer, shaders, textures, text
-├── input/        keyboard state
-├── math/         vectors and matrices
-└── utils/        file, buffer and browser helpers
-docs/
-└── GDD.md        game design document
-```
-
-## 📖 Design
-
-The concept, mechanics, tuning values and art direction are described in the
-[game design document](docs/GDD.md).
-
-## 👤 Author
-
-Made by **Lando Icaza** — [licaza.dev](https://licaza.dev)
+Without Nix, you need JDK 17+ and Maven 3.9+ on Linux, Windows or macOS (Apple
+Silicon); on macOS, add `-XstartOnFirstThread` before `-jar`.
 
 ## 🙏 Credits
 
 - 🎵 Music: [*Apple Cider*](https://opengameart.org/content/apple-cider) by
-  **Zane Little Music**, released under CC0.
+  **Zane Little Music** (CC0).
+
+## 📄 License
+
+Made by **Lando Icaza** — [licaza.dev](https://licaza.dev). Code and art are
+released under the [MIT License](LICENSE); the music keeps its own CC0 license.
