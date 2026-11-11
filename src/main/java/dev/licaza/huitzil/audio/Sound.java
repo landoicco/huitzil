@@ -3,6 +3,7 @@ package dev.licaza.huitzil.audio;
 import dev.licaza.huitzil.utils.BufferUtils;
 import dev.licaza.huitzil.utils.FileUtils;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -20,7 +21,12 @@ public class Sound {
 
         // AudioSystem needs a stream that supports mark and reset
         try (AudioInputStream stream = AudioSystem.getAudioInputStream(new BufferedInputStream(FileUtils.openResource(path)))) {
-            int sampleRate = (int) stream.getFormat().getSampleRate();
+            AudioFormat format = stream.getFormat();
+            // Any other format would play at the wrong speed or as noise, without an error
+            if (format.getChannels() != 1 || format.getSampleSizeInBits() != 16) {
+                throw new IllegalStateException("Sound " + path + " must be a 16-bit mono WAV, but is " + format);
+            }
+            int sampleRate = (int) format.getSampleRate();
             int buffer = alGenBuffers();
             alBufferData(buffer, AL_FORMAT_MONO16, BufferUtils.createByteBuffer(stream.readAllBytes()), sampleRate);
             source = alGenSources();

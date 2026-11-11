@@ -54,6 +54,10 @@ they work the same from the IDE and from inside the jar.
 - **Links open with each OS's own launcher** (`rundll32`, `open`,
   `xdg-open`). *Why:* `java.awt.Desktop` would start AWT next to GLFW, which
   conflicts on macOS.
+- **No explicit cleanup of GPU and audio resources.** Textures, shaders,
+  sounds and the music decoder live as long as the game, and the OS frees them
+  when it exits; only the window and the audio device are closed. *Why:*
+  freeing them by hand would add code with no visible effect.
 
 ### Audio
 
@@ -62,7 +66,8 @@ they work the same from the IDE and from inside the jar.
 - **Silent fallback.** Without an audio device the game runs without sound
   instead of failing.
 - **Sound effects as WAV, loaded whole.** They are tiny and read with
-  `javax.sound`, part of the JDK.
+  `javax.sound`, part of the JDK. Only 16-bit mono is accepted: any other
+  format fails with a clear error instead of playing wrong.
 - **Music as OGG, streamed.** `stb_vorbis` decodes the track into four queued
   buffers of ~0.4 s. *Why:* decoding the 3:20 track whole would take 35 MB of
   memory.
